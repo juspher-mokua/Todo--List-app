@@ -1,37 +1,46 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 
-export default class TodoFor extends Component {
-    render() {
-        const {item, handleChange, handleSubmit, editItem} = this.props  
-        
-        return (
-            <div className="card card-body my-3">
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <div className="input-group-text bg-info text-white">
-                                <i className="fas fa-book" />
-                            </div>
-                        </div>
 
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="New Todo"
-                            value={item}
-                            onChange={handleChange}
-                        />
-                    </div>
 
-                    <button 
-                        type="submit"
-                        className={`btn btn-block mt-3 ${editItem ? 'btn-success' : 'btn-info'}`}
-                    >
-                        {editItem ? 'Edit task' : 'Add new task'}
-                    </button>
-                </form>
-            </div>
-        )
+const TodoForm = ({input, setInput, todos, setTodos, editTodo, setEditTodo}) => {
+  const updateTodo=(title,id,completed)=>{
+    const newTodo=todos.map((todo)=>
+      todo.id === id ? {title, id, completed}: todo
+    );
+    setTodos(newTodo);
+    setEditTodo("");
+  };
+  useEffect(()=>{
+    if(editTodo){
+      setInput(editTodo.title)
+    }else{
+      setInput("")
     }
+  },[setInput, editTodo] );
+  const onInputChange = (event) => {
+    setInput(event.target.value);
+  }
+  const onFormSubmit=(event)=>{
+    event.preventDefault();
+    if(!editTodo){
+      setTodos([...todos, {id:todos.id, title:input, completed: false}]);
+      setInput("");
+    }else{
+      updateTodo(input,editTodo.id.completed)
+    }
+   
+  } 
+  return (
+    <div>
+      <form onSubmit={onFormSubmit}>
+        <input type='text' placeholder='Enter a Todo...' className='task-input'  onChange={onInputChange}/>
+        <button className='button-add' type='submit'>
+          {editTodo ? "OK" : "Add"}
+        </button>
+
+      </form>
+    </div>
+  )
 }
 
+export default TodoForm
