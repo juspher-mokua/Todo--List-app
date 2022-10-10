@@ -1,7 +1,7 @@
 Projet Title:
 Todo-List App
 
-  This project is intended to be a hands-on demonstration of how you can intergrate knowledge learn on react to build a Todo-list app using react 
+  This project is intended to be a hands-on demonstration of how you can intergrate knowledge learnt on react to build a Todo-list app  
    
    
  Project Description 
